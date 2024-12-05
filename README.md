@@ -1,14 +1,15 @@
 ##### 一、初始化相关API
   ##### 1.初始化屏幕
-    ```c++
+    ```c
       tft.init();
     _ 说明：初始化TFT屏幕。 _
     _填充全屏幕_
-    函数：tft.fillScreen(uint32_t color);
+
+    `tft.fillScreen(uint32_t color);`
     * 说明：使用指定的颜色值填充全屏幕。 *
 
   ##### 2.设置屏幕方向
-    ```c++
+    ```c
       tft.setRotation(uint8_t r);
     ```
     说明：设置屏幕方向。参数r为旋转角度，0为0°，1为90°，2为180°，3为270°。
@@ -18,7 +19,8 @@
 
 #### 二、文字相关API
   ##### 1.设置文本显示坐标和字体
-    函数：tft.setCursor(int16_t x, int16_t y, uint8_t font);
+    ```
+      tft.setCursor(int16_t x, int16_t y, uint8_t font);
     函数：tft.setCursor(int16_t x, int16_t y);（不带字体参数）
     说明：设置文本显示的坐标和字体。默认以文本左上角为参考点。
 
