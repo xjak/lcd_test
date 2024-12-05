@@ -10,7 +10,7 @@
 
   ##### 2.设置屏幕方向
     ```c
-      tft.setRotation(uint8_t r);
+    tft.setRotation(uint8_t r);
     ```
     说明：设置屏幕方向。参数r为旋转角度，0为0°，1为90°，2为180°，3为270°。
     颜色反转`
