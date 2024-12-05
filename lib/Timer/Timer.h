@@ -5,15 +5,15 @@
 
 class TIMER {
   public: // 公有
-    void setTask(int T);
+    int setTask(int T, void (*callback)(int));
     void loop();
-    // void _callback();
+    void _callback();
 
   private: // 私有
     long timer_ms = 0;
     // void _callback();
 }
 
-void _callback(); 
+// void _callback(); 
 
 #endif

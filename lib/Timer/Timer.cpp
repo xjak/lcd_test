@@ -1,18 +1,17 @@
 #include <Timer.h>
 
-int __callback;
+// void __callback;
 
-// void functionWithCallback(void (*callback)(int), int arg) {}
+typedef int (*Operation)(int, int);
+Operation _callback = NULL;
 
-void TIMER::setTask(void (*callback)(int), int T) {
-// void TIMER::setTask(int T, void (*callback)(int)) {
+void TIMER::setTask(int T, int (*callback)(int)) {
   timer_ms = T;
-  const auto fn = callback;
-  __callback = fn
+  _callback = callback;
 }
 
 void TIMER::loop(void (*callback)(int)) {
-  if (millis() - timer_t >= 5000) {
+  if (millis() - timer_t >= timer_ms) {
     timer_t = millis();
     callback();
   }
