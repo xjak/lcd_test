@@ -4,8 +4,8 @@
     _ 说明：初始化TFT屏幕。 _
     _填充全屏幕_
 
-    “tft.fillScreen(uint32_t color);”
-    * 说明：使用指定的颜色值填充全屏幕。 *
+    `tft.fillScreen(uint32_t color);`
+    *说明：使用指定的颜色值填充全屏幕。*
 
   ##### 2.设置屏幕方向
     ```c
@@ -18,7 +18,6 @@
 
 #### 二、文字相关API
   ##### 1.设置文本显示坐标和字体
-    ```
       tft.setCursor(int16_t x, int16_t y, uint8_t font);
     函数：tft.setCursor(int16_t x, int16_t y);（不带字体参数）
     说明：设置文本显示的坐标和字体。默认以文本左上角为参考点。
