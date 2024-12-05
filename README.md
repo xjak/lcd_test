@@ -1,6 +1,7 @@
 ##### 一、初始化相关API
   ##### 1.初始化屏幕
-    ```tft.init();```
+    ```c++
+      tft.init();
     _ 说明：初始化TFT屏幕。 _
     _填充全屏幕_
     函数：tft.fillScreen(uint32_t color);
