@@ -5,7 +5,7 @@
     _ 说明：初始化TFT屏幕。 _
     _填充全屏幕_
 
-    `tft.fillScreen(uint32_t color);`
+    “tft.fillScreen(uint32_t color);”
     * 说明：使用指定的颜色值填充全屏幕。 *
 
   ##### 2.设置屏幕方向
@@ -13,8 +13,8 @@
       tft.setRotation(uint8_t r);
     ```
     说明：设置屏幕方向。参数r为旋转角度，0为0°，1为90°，2为180°，3为270°。
-    颜色反转
-    函数：tft.invertDisplay(bool i);
+    颜色反转`
+    `tft.invertDisplay(bool i);`
     说明：反转显示颜色。当i为1时反转，为0时正常显示。
 
 #### 二、文字相关API
