@@ -3,17 +3,19 @@
 
 #define timer_t 0;
 
+// typedef int (*Operation)(int, int);
+// Operation _callback = NULL;
+
 class TIMER {
-  public: // 公有
-    int setTask(int T, void (*callback)(int));
+  public:
+    int setTask(int T, void (*callback)());
+    // int setTask(int T, Operation callback);
     void loop();
-    void _callback();
 
-  private: // 私有
+  private:
     long timer_ms = 0;
-    // void _callback();
-}
+    void (*_callback)();
 
-// void _callback(); 
+}
 
 #endif
