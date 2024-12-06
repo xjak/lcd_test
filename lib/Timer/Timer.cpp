@@ -1,19 +1,25 @@
 #include <Timer.h>
 
-
 int TIMER::setTask(int T, void (*callback)()) {
-// void TIMER::setTask(int T, Operation callback ) {
   timer_ms = T;
   _callback = callback;
 }
 
-
 void TIMER::loop() {
-  if (millis() - timer_t >= timer_ms) {
+  if (flag && millis() - timer_t >= timer_ms) {
     timer_t = millis();
     _callback();
   }
 }
+
+void TIMER::start() {
+  flag = true;
+}
+
+void TIMER::stop() {
+  flag = false;
+}
+
 
 // // 定义一个回调函数
 // void CallbackFunction() {

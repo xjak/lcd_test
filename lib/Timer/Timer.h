@@ -12,8 +12,15 @@ class TIMER {
     // int setTask(int T, Operation callback);
     void loop();
 
+    void start();
+
+    void stop();
+
   private:
     long timer_ms = 0;
+
+    bool flag = true;
+
     void (*_callback)();
 
 }
