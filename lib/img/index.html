@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Save Image to Local</title>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script> -->
+    <style>
+      img {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <span id="usedSize"></span>/
+      <span id="totalSize"></span>
+    </div>
+
+    <input
+      type="file"
+      id="fileInput"
+      multiple
+      accept="image/*"
+      onchange="imgchange(this)"
+    />
+
+    <button onclick="saveImageFromUrl()">保存</button>
+
+    <ul id="list"></ul>
+
+    <img id="compressedImage" />
+
+    <div id="imgs"></div>
+
+    <script>
+      const $ = (el) => document.querySelector(el);
+
+      // 定义目标，0.6表示60%的质量
+      var targetQuality = 0.6;
+      let usedSize = 0;
+
+      function compressImage(file) {
+        let imgType = file.name.split(".")[1];
+        if (imgType === "png") {
+          imgType = "image/png";
+        } else {
+          imgType = "image/jpeg";
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const img = new Image();
+          img.onload = function () {
+            console.dir(img);
+
+            // 设置Canvas元素
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            // 设置目标宽度和高度（可以根据需要调整）
+            let width = img.width;
+            let height = img.height;
+
+            // 设置Canvas大小
+            canvas.width = width;
+            canvas.height = height;
+
+            // 绘制图片到Canvas上
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // 获取压缩后的图片数据（这里使用toDataURL，可以指定图片格式和质量）
+            const dataUrl = canvas.toDataURL(imgType, 0.7); // 0.7是质量参数，范围是0到1
+            // const dataUrl = canvas.toBlob(imgType, 0.7); // 0.7是质量参数，范围是0到1
+
+            // 显示压缩后的图片
+            const imgel = document.createElement("img");
+            imgel.src = dataUrl;
+            imgel.name = file.name;
+            $("#imgs").appendChild(imgel);
+
+            showAfterInfo(dataUrl);
+          };
+
+          // 读取文件内容作为Data URL
+          img.src = event.target.result;
+        };
+
+        // 读取文件
+        reader.readAsDataURL(file);
+      }
+
+      function showBeforeInfo(file) {
+        const li = document.createElement("li");
+        const name = document.createElement("span");
+        const size = document.createElement("span");
+        name.innerText = file.name;
+        size.innerText = (file.size / 1024).toFixed(2) + "kb";
+        li.appendChild(name);
+        li.appendChild(size);
+        $("#list").appendChild(li);
+      }
+
+      function showAfterInfo(file) {
+        usedSize++;
+        $("#usedSize").innerText = usedSize;
+        console.log(file);
+      }
+
+      function imgchange(argument) {
+        usedSize = 0;
+        const files = argument.files;
+        $("#totalSize").innerText = files.length;
+        for (let i = 0; i < files.length; i++) {
+          compressImage(files[i]);
+          showBeforeInfo(files[i]);
+        }
+      }
+
+      // 定义一个函数，接受一个图片元素和目标压缩质量作为参数
+      function _compressImage(image, quality) {
+        // 创建一个canvas元素
+        var canvas = document.createElement("canvas");
+        // 获取canvas的2D上下文
+        var ctx = canvas.getContext("2d");
+
+        // 原始图片的宽度和高度
+        var width = image.width;
+        var height = image.height;
+
+        // 设置canvas的宽度和高度与原始图片相同
+        canvas.width = width;
+        canvas.height = height;
+
+        // 将原始图片绘制到canvas上，以便进行操作
+        ctx.drawImage(image, 0, 0, width, height);
+
+        // 获取canvas上的图片数据
+        var imageData = ctx.getImageData(0, 0, width, height);
+        var data = imageData.data;
+
+        // 将图片数据压缩
+        for (var i = 0; i < data.length; i += 4) {
+          // RGBA
+
+          var r = data[i];
+          var g = data[i + 1];
+          var b = data[i + 2];
+          var a = data[i + 3];
+
+          // 进行压缩处理，例如可以简单地将颜色通道值进行四舍五入
+          data[i] = Math.round(r * quality);
+          data[i + 1] = Math.round(g * quality);
+          data[i + 2] = Math.round(b * quality);
+          // 保持透明度不变
+          data[i + 3] = a;
+        }
+
+        // 将压缩后的图片数据放回canvas
+        ctx.putImageData(imageData, 0, 0);
+
+        // 返回压缩后的图片对象
+        return canvas.toDataURL("image/jpeg", quality);
+      }
+
+      async function saveImageFromUrl() {
+        const imgs = $("#imgs").childNodes;
+        console.log(imgs.name);
+
+        Array.from(imgs).forEach((v) => {
+          // const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = v.src;
+          a.download = v.name; //'image.jpg';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          // URL.revokeObjectURL(url);
+        });
+      }
+
+      // async function saveImageFromUrlUsingSaver() {
+      //     const imageUrl = 'https://example.com/path/to/your/image.jpg';  // Replace with your image URL
+
+      //     const response = await fetch(imageUrl);
+      //     const blob = await response.blob();
+
+      //     saveAs(blob, 'image.jpg');  // Set your file name here
+      // }
+    </script>
+  </body>
+</html>
