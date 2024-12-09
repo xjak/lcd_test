@@ -5,7 +5,7 @@
 
 String info[DATA_LENGTH];
 
-void analysisData (String data) {
+void analysisData (String &data) {
     // data.toInt()
     // data.toFloat()
     // String(d, 3) // 保留三位小数
@@ -16,7 +16,7 @@ void analysisData (String data) {
     index = data.indexOf("{|}", index);
     lastIndex = data.indexOf("{|}", index + 1);
     String str = data.substring(index + 3, lastIndex - index - 3);
-    info[i] = str.substring(str.indexOf(" ") + 1);
+    info[i] = str.substring(str.indexOf(" ") + 1).trim();
     index = lastIndex + 3;
   }
   
@@ -49,6 +49,7 @@ struct PC_INFO {
   String cpu_hz;
   String cpu_power;
   String cpu_temperature;
+  String cpu_rpm;
   
   // ram
   String ram_rate;
